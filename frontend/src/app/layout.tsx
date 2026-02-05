@@ -20,7 +20,7 @@ const arial = arialLocal({
 export const metadata: Metadata = {
   title: "FinTrack",
   description:
-    "A personal finance management application built with Next.js and Tailwind CSS.",
+    "A personal finance management application built with MERN stack",
   icons: {
     icon: [
       { url: "/favicon.ico" },
