@@ -21,6 +21,12 @@ export const metadata: Metadata = {
   title: "FinTrack",
   description:
     "A personal finance management application built with Next.js and Tailwind CSS.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/assets/img/icons/favicon-arrow.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({
