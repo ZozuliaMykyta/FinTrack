@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-arial: "Arial", sans-serif;
+}
+
 .container {
   @apply mx-auto px-4 max-w-308 w-full;
 }
