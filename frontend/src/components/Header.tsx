@@ -27,21 +27,28 @@ const Header: React.FC = () => {
     },
   ];
   return (
-    <div className="container py-3">
-      <Image
-        src="/assets/img/icons/logo.svg"
-        alt="FinTrack Logo"
-        width={127}
-        height={43}
-      />
-      <ul>
+    <div className="container py-3 flex justify-between items-center gap-4">
+      <Link href="/">
+        <Image
+          src="/assets/img/icons/logo.svg"
+          alt="FinTrack Logo"
+          width={127}
+          height={43}
+        />
+      </Link>
+      <ul className="flex justify-between items-center gap-7">
         {navLinks.map((link) => (
           <li key={link.id}>
-            <Link href={link.href}>{link.name}</Link>
+            <Link
+              href={link.href}
+              className="text-[16px] tracking-[0.32px] text-grey hover:text-grass-green transition-colors duration-500"
+            >
+              {link.name}
+            </Link>
           </li>
         ))}
       </ul>
-      <div>
+      <div className="flex justify-between items-center gap-3.5">
         {navProfil.map((item) => (
           <Link key={item.id} href={item.href}>
             <Image src={item.img} alt={item.alt} />
