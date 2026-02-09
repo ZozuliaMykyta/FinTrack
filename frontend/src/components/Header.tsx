@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     {
       id: "notifiaction",
       img: (
-        <Notifiaction className="text-grey group-hover:text-grass-green transition-colors duration-300" />
+        <Notifiaction className="text-grey group-hover:text-grass-green transition-colors duration-500" />
       ),
       alt: "notifiaction button",
       href: "notifiaction",
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
     {
       id: "profile",
       img: (
-        <Profile className="text-grey group-hover:text-grass-green transition-colors duration-300" />
+        <Profile className="text-grey group-hover:text-grass-green transition-colors duration-500" />
       ),
       alt: "profile button",
       href: "profile",
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
           <li key={link.id}>
             <Link
               href={link.href}
-              className="text-[16px] tracking-[0.32px] text-grey hover:text-grass-green transition-colors duration-500"
+              className="underline-animate pb-0.5 text-[16px] tracking-[0.32px] text-grey hover:text-grass-green transition-all duration-500"
             >
               {link.name}
             </Link>
