@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import notifiaction from "@/assets/img/icons/notifiaction.svg";
-import profile from "@/assets/img/icons/profile.svg";
+import Notifiaction from "@/assets/img/icons/notifiaction.svg";
+import Profile from "@/assets/img/icons/profile.svg";
 
 const Header: React.FC = () => {
   const navLinks = [
@@ -15,13 +15,17 @@ const Header: React.FC = () => {
   const navProfil = [
     {
       id: "notifiaction",
-      img: notifiaction,
+      img: (
+        <Notifiaction className="text-grey group-hover:text-grass-green transition-colors duration-300" />
+      ),
       alt: "notifiaction button",
       href: "notifiaction",
     },
     {
       id: "profile",
-      img: profile,
+      img: (
+        <Profile className="text-grey group-hover:text-grass-green transition-colors duration-300" />
+      ),
       alt: "profile button",
       href: "profile",
     },
@@ -50,8 +54,8 @@ const Header: React.FC = () => {
       </ul>
       <div className="flex justify-between items-center gap-3.5">
         {navProfil.map((item) => (
-          <Link key={item.id} href={item.href}>
-            <Image src={item.img} alt={item.alt} />
+          <Link key={item.id} href={item.href} className="group">
+            {item.img}
           </Link>
         ))}
       </div>
