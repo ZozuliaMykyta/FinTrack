@@ -1,10 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Notifiaction from "@/assets/img/icons/notifiaction.svg";
 import Profile from "@/assets/img/icons/profile.svg";
 
 const Header: React.FC = () => {
+  const [isOpenBurger, setIsOpenBurger] = useState<boolean>(false);
   const navLinks = [
     { name: "Dashboard", href: "/dashboard", id: "dashboard" },
     { name: "Transactions", href: "/transactions", id: "transactions" },
@@ -59,6 +61,27 @@ const Header: React.FC = () => {
           </Link>
         ))}
       </div>
+      <button
+        onClick={() => setIsOpenBurger(!isOpenBurger)}
+        className="relative flex flex-col items-center justify-center gap-2 lg:hidden z-50 w-9 h-9"
+        aria-label="menu button"
+      >
+        <span
+          className={`block h-0.5 w-9 bg-gray-600 transition-transform duration-300 ${
+            isOpenBurger ? "rotate-45 translate-y-2.5" : ""
+          }`}
+        ></span>
+        <span
+          className={`block h-0.5 w-9 bg-gray-600 transition-opacity duration-300 ${
+            isOpenBurger ? "opacity-0" : ""
+          }`}
+        ></span>
+        <span
+          className={`block h-0.5 w-9 bg-gray-600 transition-transform duration-300 ${
+            isOpenBurger ? "-rotate-45 -translate-y-2.5" : ""
+          }`}
+        ></span>
+      </button>
     </div>
   );
 };
