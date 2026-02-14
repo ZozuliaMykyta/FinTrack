@@ -1,7 +1,11 @@
 import Link from "next/link";
 import React from "react";
 
-const HeaderList: React.FC = () => {
+type HeaderProfileProps = {
+  isOpenBurger?: boolean;
+};
+
+const HeaderList: React.FC<HeaderProfileProps> = ({ isOpenBurger }) => {
   const navLinks = [
     { name: "Dashboard", href: "/dashboard", id: "dashboard" },
     { name: "Transactions", href: "/transactions", id: "transactions" },
@@ -10,9 +14,11 @@ const HeaderList: React.FC = () => {
     { name: "Reports", href: "/reports", id: "reports" },
   ];
   return (
-    <ul className="lg:flex justify-between items-center gap-7 hidden lg:visible">
+    <ul
+      className={`lg:flex justify-between items-center gap-7 lg:visible ${isOpenBurger ? "visible" : "hidden"}`}
+    >
       {navLinks.map((link) => (
-        <li key={link.id}>
+        <li key={link.id} className={`${isOpenBurger ? "not-first:mt-3" : ""}`}>
           <Link
             href={link.href}
             className="underline-animate pb-0.5 text-[16px] tracking-[0.32px] text-grey hover:text-grass-green transition-all duration-500"
