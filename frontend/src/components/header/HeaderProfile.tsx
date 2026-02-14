@@ -3,7 +3,11 @@ import Notifiaction from "@/assets/img/icons/notifiaction.svg";
 import Profile from "@/assets/img/icons/profile.svg";
 import Link from "next/link";
 
-const HeaderProfile: React.FC = () => {
+type HeaderProfileProps = {
+  isOpenBurger?: boolean;
+};
+
+const HeaderProfile: React.FC<HeaderProfileProps> = ({ isOpenBurger }) => {
   const navProfil = [
     {
       id: "notifiaction",
@@ -23,7 +27,9 @@ const HeaderProfile: React.FC = () => {
     },
   ];
   return (
-    <div className="lg:flex justify-between items-center gap-3.5 hidden lg:visible">
+    <div
+      className={`lg:flex justify-between items-center gap-3.5 lg:visible ${isOpenBurger ? "visible mt-10 flex-row flex" : "hidden"}`}
+    >
       {navProfil.map((item) => (
         <Link key={item.id} href={item.href} className="group">
           {item.img}
