@@ -11,3 +11,16 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/backend
+    environment:
+      - NODE_ENV=development
+      # - DATABASE_URL=mongodb://mongo:27017/eatly_db
+    env_file:
+      - ./backend/.env
