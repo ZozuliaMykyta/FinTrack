@@ -44,7 +44,10 @@ const Header: React.FC = () => {
         className={`${
           isOpenBurger ? "translate-x-0" : "translate-x-[110%]"
         } fixed top-0 right-0 w-full h-full bg-black z-20 transition-all duration-500 flex flex-col items-center justify-center text-center`}
-      ></div>
+      >
+        <HeaderList isOpenBurger={isOpenBurger} />
+        <HeaderProfile isOpenBurger={isOpenBurger} />
+      </div>
     </div>
   );
 };
