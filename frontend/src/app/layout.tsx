@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import arialLocal from "next/font/local";
 import "./globals.css";
-import Header from "@/components/Header";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -39,7 +38,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${arial.variable} ${poppins.variable} font-inter font-normal`}
       >
-        <Header />
         <main>{children}</main>
       </body>
     </html>
