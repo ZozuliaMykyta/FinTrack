@@ -40,7 +40,7 @@ export default function RootLayout({
         className={`${inter.variable} ${arial.variable} ${poppins.variable} font-inter font-normal`}
       >
         <Header />
-        {children}
+        <main>{children}</main>
       </body>
     </html>
   );
