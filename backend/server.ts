@@ -7,7 +7,7 @@ import errorHandler from "./middlewares/errorMiddleware";
 dotenv.config();
 
 const app = express();
-
+// error handler middleware
 app.use(errorHandler);
 
 app.use(cors());
