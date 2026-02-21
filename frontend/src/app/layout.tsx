@@ -38,7 +38,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${arial.variable} ${poppins.variable} font-inter font-normal`}
       >
-        <main>{children}</main>
+        <div className="wrapper">
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );

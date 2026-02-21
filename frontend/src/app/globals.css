@@ -9,7 +9,9 @@
   --color-grey: #64748b;
   --color-grass-green: #00b894;
 }
-
+.wrapper {
+  @apply relative flex flex-col min-h-screen overflow-hidden;
+}
 .container {
   @apply mx-auto px-4 max-w-308 w-full;
 }
