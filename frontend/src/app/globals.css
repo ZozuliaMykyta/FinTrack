@@ -36,3 +36,6 @@
   width: 100%;
   left: 0;
 }
+.green-btn {
+  @apply rounded-lg bg-[#00B894] text-white py-2.5 px-12 font-medium transition-transform duration-150 ease-in-out hover:scale-105 focus-visible:scale-105 hover:shadow-lg active:scale-95 active:shadow;
+}
