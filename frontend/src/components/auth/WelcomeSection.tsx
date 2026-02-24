@@ -40,10 +40,10 @@ const WelcomeSection: React.FC = () => {
         {pathName === "/signUp" ? signUpInfo.desc : signInInfo.desc}
       </h5>
       <Link
-        className="rounded-lg bg-[#00B894] text-white py-2.5 px-12 font-medium transition-transform duration-150 ease-in-out hover:scale-105 focus-visible:scale-105 hover:shadow-lg active:scale-95 active:shadow"
-        href={pathName === "/signUp" ? signInInfo.path : signUpInfo.path}
+        className="uppercase rounded-lg bg-[#00B894] text-white py-2.5 px-12 font-medium transition-transform duration-150 ease-in-out hover:scale-105 focus-visible:scale-105 hover:shadow-lg active:scale-95 active:shadow"
+        href={pathName === "/signUp" ? signUpInfo.path : signInInfo.path}
       >
-        {pathName === "/signUp" ? signInInfo.link : signUpInfo.link}
+        {pathName === "/signUp" ? signUpInfo.link : signInInfo.link}
       </Link>
     </div>
   );
