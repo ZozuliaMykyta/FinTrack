@@ -5,8 +5,10 @@ import React from "react";
 const page: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <WelcomeSection />
-      <AuthFormPanel />
+      <div className="flex">
+        <WelcomeSection />
+        <AuthFormPanel />
+      </div>
     </div>
   );
 };
