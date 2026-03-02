@@ -1,7 +1,9 @@
 "use client";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { FaGoogle } from "react-icons/fa";
+import AuthForm from "./AuthForm";
 
 const AuthFormPanel: React.FC = () => {
   const pathName = usePathname();
@@ -21,10 +23,13 @@ const AuthFormPanel: React.FC = () => {
       <h2 className="text-[#333] leading-10 font-poppins text-[32px] font-bold">
         {pathName === "/signUp" ? signUpInfo.title : signInInfo.title}
       </h2>
-      <FaGoogle className="text-[rgba(102,102,102,1)] text-3xl" />
+      <Link href="#!">
+        <FaGoogle className="text-[rgba(102,102,102,1)] text-3xl" />
+      </Link>
       <h6 className="leading-5 text-[#999] text-[12px] font-poppins">
         {pathName === "/signUp" ? signUpInfo.desc : signInInfo.desc}
       </h6>
+      <AuthForm />
     </div>
   );
 };
