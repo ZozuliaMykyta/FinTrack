@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${arial.variable} ${poppins.variable} font-inter font-normal`}
+        className={`${inter.variable} ${arial.variable} ${poppins.variable} font-inter font-normal bg-[#F8FAFC]`}
       >
         <div className="wrapper">
           <main>{children}</main>
