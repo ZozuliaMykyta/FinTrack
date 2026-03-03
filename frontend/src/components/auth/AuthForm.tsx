@@ -84,6 +84,11 @@ const AuthForm: React.FC = () => {
           )}
         </div>
       )}
+      {pathName === "/signIn" && (
+        <Link className="text-[#64748B] text-[14px]" href="#!">
+          Forgot your password?
+        </Link>
+      )}
       <button type="submit" className="green-btn">
         {pathName === "/signUp" ? "Sign Up" : "Sign In"}
       </button>
