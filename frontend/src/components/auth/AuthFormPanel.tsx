@@ -22,8 +22,8 @@ const AuthFormPanel: React.FC = () => {
       <h2 className="text-[#333] leading-10 font-poppins text-[32px] font-bold">
         {pathName === "/signUp" ? signUpInfo.title : signInInfo.title}
       </h2>
-      <Link href="#!">
-        <FaGoogle className="text-[rgba(102,102,102,1)] text-3xl" />
+      <Link href="#!" className="group relative">
+        <FaGoogle className="text-[rgba(102,102,102,1)] text-3xl group-hover:text-[rgba(0,184,148,1)] transition-colors duration-300" />
       </Link>
       <h6 className="leading-5 text-[#999] text-[12px] font-poppins">
         {pathName === "/signUp" ? signUpInfo.desc : signInInfo.desc}
