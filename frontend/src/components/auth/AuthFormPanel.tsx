@@ -16,7 +16,6 @@ const AuthFormPanel: React.FC = () => {
     title: "Sign in to FinTrack",
     desc: "or use your account",
     link: "sign in",
-    password: "Forgot your password?",
   };
   return (
     <div className="flex justify-center items-center flex-col gap-5 shadow-[0_10px_40px_0_rgba(0,0,0,0.15)] min-h-[50vh] rounded-tr-[20px] rounded-br-[20px] py-14 px-12">
