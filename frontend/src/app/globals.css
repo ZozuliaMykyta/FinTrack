@@ -49,3 +49,6 @@
 .btn-anim {
   @apply transition-all duration-150 ease-in-out hover:scale-105 focus-visible:scale-105 hover:shadow-lg active:scale-95 active:shadow cursor-pointer;
 }
+.profile-list-item {
+  @apply text-[12px] text-dark-blue font-medium;
+}
