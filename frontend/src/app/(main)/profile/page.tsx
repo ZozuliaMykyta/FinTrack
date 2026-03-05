@@ -1,4 +1,5 @@
 import UserInfo from "@/components/profile/UserInfo";
+import UserSettings from "@/components/profile/UserSettings";
 import React from "react";
 
 const page: React.FC = () => {
@@ -9,6 +10,7 @@ const page: React.FC = () => {
       </h3>
       <div className="flex justify-between items-start mt-10">
         <UserInfo />
+        <UserSettings />
       </div>
     </div>
   );
