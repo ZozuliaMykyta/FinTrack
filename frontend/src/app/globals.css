@@ -46,3 +46,6 @@
 .auth-input-icon {
   @apply absolute top-[50%] -translate-y-[50%] left-2.5 text-[20px];
 }
+.btn-anim {
+  @apply transition-all duration-150 ease-in-out hover:scale-105 focus-visible:scale-105 hover:shadow-lg active:scale-95 active:shadow cursor-pointer;
+}
