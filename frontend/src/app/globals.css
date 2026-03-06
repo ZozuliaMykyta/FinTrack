@@ -9,6 +9,7 @@
   --color-grey: #64748b;
   --color-grass-green: #00b894;
   --color-dark-blue: #1e293b;
+  --color-custom-red: #ef4444;
 }
 .wrapper {
   @apply relative flex flex-col min-h-screen overflow-hidden;
