@@ -23,6 +23,16 @@ services:
       - ./backend:/backend
     environment:
       - NODE_ENV=development
-      # - DATABASE_URL=mongodb://mongo:27017/eatly_db
+      - DATABASE_URL=${FinTrack_DATABASE_URL}
     env_file:
       - ./backend/.env
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
