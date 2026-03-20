@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import errorHandler from "./middlewares/errorMiddleware";
+import AuthUserRoutes from "./routes/AuthUserRoutes";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(errorHandler);
 //
 app.use(cors());
 app.use(express.json());
+app.use(AuthUserRoutes);
 
 // connect to MongoDB
 mongoose
