@@ -6,13 +6,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-
-type Inputs = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+import IAuth from "@/interfaces/IAuth";
 
 const AuthForm: React.FC = () => {
   const [inputTypes, setInputTypes] = useState<{
@@ -27,8 +21,8 @@ const AuthForm: React.FC = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<Inputs>({ mode: "onBlur" });
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  } = useForm<IAuth>({ mode: "onBlur" });
+
   const pathName = usePathname();
 
   const handlePasswordVisibility = (key: keyof typeof inputTypes) => {
@@ -37,6 +31,9 @@ const AuthForm: React.FC = () => {
       [key]: prevState[key] === "password" ? "text" : "password",
     }));
   };
+
+  const onSubmit: SubmitHandler<IAuth> = (data: IAuth) => {};
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
