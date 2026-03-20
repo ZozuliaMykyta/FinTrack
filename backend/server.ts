@@ -13,7 +13,7 @@ app.use(errorHandler);
 //
 app.use(cors());
 app.use(express.json());
-app.use(AuthUserRoutes);
+app.use("/api", AuthUserRoutes);
 
 // connect to MongoDB
 mongoose
