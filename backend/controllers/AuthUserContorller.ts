@@ -27,3 +27,4 @@ const signUpController = async (
     next(error);
   }
 };
+export default signUpController;
