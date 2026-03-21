@@ -7,6 +7,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import IAuth from "@/interfaces/IAuth";
+import axios from "axios";
 
 const AuthForm: React.FC = () => {
   const [inputTypes, setInputTypes] = useState<{
@@ -32,7 +33,24 @@ const AuthForm: React.FC = () => {
     }));
   };
 
-  const onSubmit: SubmitHandler<IAuth> = (data: IAuth) => {};
+  const onSubmit: SubmitHandler<IAuth> = async (data: IAuth) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/signUp",
+        data,
+      );
+      if (response.data) {
+        console.log("Registration successful:", response.data);
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Server response:", error.response?.status);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
 
   return (
     <form
@@ -79,11 +97,6 @@ const AuthForm: React.FC = () => {
             placeholder="Email"
             className="auth-input"
           />
-          {errors.email && (
-            <p className="text-custom-red text-sm mt-1">
-              {errors.email.message}
-            </p>
-          )}
         </div>
         {errors.email && (
           <p className="text-custom-red text-sm mt-1">{errors.email.message}</p>
