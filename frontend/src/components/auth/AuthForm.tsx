@@ -85,6 +85,9 @@ const AuthForm: React.FC = () => {
             </p>
           )}
         </div>
+        {errors.email && (
+          <p className="text-custom-red text-sm mt-1">{errors.email.message}</p>
+        )}
       </div>
       <div>
         <div className="relative">
