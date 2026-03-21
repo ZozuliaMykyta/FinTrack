@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./features/User/userSlice";
+import { FinTrackApi } from "./services/api";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      user: userReducer,
+      [FinTrackApi.reducerPath]: FinTrackApi.reducer,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(FinTrackApi.middleware),
   });
 };
 
