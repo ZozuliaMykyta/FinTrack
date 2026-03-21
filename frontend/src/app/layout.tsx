@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import arialLocal from "next/font/local";
 import "./globals.css";
+import StoreProvider from "./StoreProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,9 +39,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${arial.variable} ${poppins.variable} font-inter font-normal bg-[#F8FAFC]`}
       >
-        <div className="wrapper">
-          <main>{children}</main>
-        </div>
+        <StoreProvider>
+          <div className="wrapper">
+            <main>{children}</main>
+          </div>
+        </StoreProvider>
       </body>
     </html>
   );
