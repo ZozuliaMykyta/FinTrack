@@ -22,7 +22,7 @@ const AuthForm: React.FC = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<IAuth>({ mode: "onBlur" });
+  } = useForm<IAuth>();
 
   const pathName = usePathname();
 
