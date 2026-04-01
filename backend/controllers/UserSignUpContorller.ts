@@ -13,7 +13,7 @@ const signUpController = async (
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(401).json({ message: "Email already in use" });
+      return res.status(401).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
