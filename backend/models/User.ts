@@ -5,7 +5,7 @@ const UserSchema = new Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  jwtToken: { type: String, required: false },
+  isEmailVerified: { type: Boolean, required: true, default: false },
 });
 
 const User = mongoose.model<IUser>("User", UserSchema);

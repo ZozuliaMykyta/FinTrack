@@ -3,6 +3,6 @@ interface IUser {
   name: string;
   email: string;
   password: string;
-  jwtToken: string;
+  isEmailVerified: boolean;
 }
 export default IUser;
