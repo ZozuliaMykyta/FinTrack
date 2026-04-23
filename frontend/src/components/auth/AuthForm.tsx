@@ -38,21 +38,22 @@ const AuthForm: React.FC = () => {
   const onSubmit: SubmitHandler<IAuth> = async (data: IAuth) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/signUp",
+        "http://localhost:5000/api/auth/signup",
         data,
       );
       if (response.data) {
+        setUserError(null);
         console.log("Registration successful:", response.data);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          setUserError(error.response.data.message);
+        if (error.response?.status === 409) {
+          setUserError(error.response.data.message || "User already exists");
         } else {
           console.error(
             "Server response:",
-            error.response?.status,
-            error.response?.data,
+            error.response?.status || error.code,
+            error.response?.data || error.message,
           );
         }
       } else {
