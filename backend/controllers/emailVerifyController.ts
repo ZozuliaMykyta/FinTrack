@@ -27,7 +27,8 @@ const emailVerifyController = async (
 
     const sessionToken = jwt.sign(
       { email: user.email },
-      process.env.JWT_SECRET || "your_jwt_secret",
+      process.env.JWT_SECRETAFTERVERIFICATION ||
+        "your_jwt_secret_after_verification",
       {
         expiresIn: "7d",
       },
