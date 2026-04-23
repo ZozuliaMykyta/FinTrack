@@ -5,6 +5,6 @@ import emailVerifyController from "../controllers/emailVerifyController";
 const router = Router();
 
 router.post("/signup", UserSignUpContorller);
-router.get("/verify-email", emailVerifyController);
+router.post("/verify-email", emailVerifyController);
 
 export default router;
