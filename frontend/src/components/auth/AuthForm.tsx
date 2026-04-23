@@ -17,6 +17,8 @@ const AuthForm: React.FC = () => {
     password: "password",
     confirmPassword: "password",
   });
+  const [userError, setUserError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -43,141 +45,152 @@ const AuthForm: React.FC = () => {
         console.log("Registration successful:", response.data);
       }
     } catch (error) {
-      console.error("Registration error:", error);
       if (axios.isAxiosError(error)) {
-        console.error("Server response:", error.response?.status);
+        if (error.response?.status === 401) {
+          setUserError(error.response.data.message);
+        } else {
+          console.error(
+            "Server response:",
+            error.response?.status,
+            error.response?.data,
+          );
+        }
       } else {
-        console.error("Unexpected error:", error);
+        console.error("Registration error:", error);
       }
     }
   };
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-5 justify-center items-center"
-    >
-      {pathName === "/signUp" && (
+    <>
+      {userError && <p className="text-custom-red text-sm mb-3">{userError}</p>}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 justify-center items-center"
+      >
+        {pathName === "/signUp" && (
+          <div>
+            <div className="relative">
+              <MdOutlinePerson className="auth-input-icon" />
+              <input
+                type="text"
+                {...register("username", {
+                  required: "Enter your name",
+                  minLength: { value: 2, message: "At least 2 characters" },
+                  pattern: {
+                    value: /^[A-Za-z\s\-]+$/,
+                    message: "Only letters, spaces and hyphens allowed",
+                  },
+                })}
+                placeholder="Name"
+                className={`auth-input ${errors.username ? "border-custom-red! focus:outline-none" : ""}`}
+              />
+            </div>
+            {errors.username && (
+              <p className="text-custom-red text-sm mt-1">
+                {errors.username.message}
+              </p>
+            )}
+          </div>
+        )}
         <div>
           <div className="relative">
-            <MdOutlinePerson className="auth-input-icon" />
+            <MdOutlineEmail className="auth-input-icon" />
             <input
-              type="text"
-              {...register("username", {
-                required: "Enter your name",
-                minLength: { value: 2, message: "At least 2 characters" },
+              type="email"
+              {...register("email", {
+                required: "Enter your email",
                 pattern: {
-                  value: /^[A-Za-z\s\-]+$/,
-                  message: "Only letters, spaces and hyphens allowed",
+                  value: /^\S+@\S+\.\S+$/,
+                  message: "Enter a valid email address",
                 },
               })}
-              placeholder="Name"
-              className={`auth-input ${errors.username ? "border-custom-red! focus:outline-none" : ""}`}
+              placeholder="Email"
+              className="auth-input"
             />
           </div>
-          {errors.username && (
+          {errors.email && (
             <p className="text-custom-red text-sm mt-1">
-              {errors.username.message}
+              {errors.email.message}
             </p>
           )}
         </div>
-      )}
-      <div>
-        <div className="relative">
-          <MdOutlineEmail className="auth-input-icon" />
-          <input
-            type="email"
-            {...register("email", {
-              required: "Enter your email",
-              pattern: {
-                value: /^\S+@\S+\.\S+$/,
-                message: "Enter a valid email address",
-              },
-            })}
-            placeholder="Email"
-            className="auth-input"
-          />
-        </div>
-        {errors.email && (
-          <p className="text-custom-red text-sm mt-1">{errors.email.message}</p>
-        )}
-      </div>
-      <div>
-        <div className="relative">
-          <RiLockPasswordLine className="auth-input-icon" />
-          <input
-            type={inputTypes.password}
-            {...register("password", {
-              required: "Enter a password",
-              minLength: { value: 8, message: "At least 8 characters" },
-              pattern: {
-                value: /^(?=.*\d).+$/,
-                message: "Password must contain at least one digit",
-              },
-            })}
-            placeholder="Password"
-            className={`auth-input ${errors.password ? "border-custom-red" : ""}`}
-          />
-          {inputTypes.password === "password" ? (
-            <IoEyeOutline
-              className="absolute top-[50%] -translate-y-[50%] right-2.5 text-[20px]"
-              onClick={() => handlePasswordVisibility("password")}
-            />
-          ) : (
-            <IoEyeOffOutline
-              className="absolute top-[50%] -translate-y-[50%] right-2.5 text-[20px]"
-              onClick={() => handlePasswordVisibility("password")}
-            />
-          )}
-        </div>
-        {errors.password && (
-          <p className="text-custom-red text-sm mt-1">
-            {errors.password.message}
-          </p>
-        )}
-      </div>
-      {pathName === "/signUp" && (
         <div>
           <div className="relative">
             <RiLockPasswordLine className="auth-input-icon" />
             <input
-              type={inputTypes.confirmPassword}
-              {...register("confirmPassword", {
-                required: "Confirm your password",
-                validate: (value) =>
-                  value === getValues("password") || "Passwords do not match",
+              type={inputTypes.password}
+              {...register("password", {
+                required: "Enter a password",
+                minLength: { value: 8, message: "At least 8 characters" },
+                pattern: {
+                  value: /^(?=.*\d).+$/,
+                  message: "Password must contain at least one digit",
+                },
               })}
-              placeholder="Confirm Password"
-              className="auth-input"
+              placeholder="Password"
+              className={`auth-input ${errors.password ? "border-custom-red" : ""}`}
             />
-            {inputTypes.confirmPassword === "password" ? (
+            {inputTypes.password === "password" ? (
               <IoEyeOutline
                 className="absolute top-[50%] -translate-y-[50%] right-2.5 text-[20px]"
-                onClick={() => handlePasswordVisibility("confirmPassword")}
+                onClick={() => handlePasswordVisibility("password")}
               />
             ) : (
               <IoEyeOffOutline
                 className="absolute top-[50%] -translate-y-[50%] right-2.5 text-[20px]"
-                onClick={() => handlePasswordVisibility("confirmPassword")}
+                onClick={() => handlePasswordVisibility("password")}
               />
             )}
           </div>
-          {errors.confirmPassword && (
+          {errors.password && (
             <p className="text-custom-red text-sm mt-1">
-              {errors.confirmPassword.message}
+              {errors.password.message}
             </p>
           )}
         </div>
-      )}
-      {pathName === "/signIn" && (
-        <Link className="text-[#64748B] text-[14px]" href="#!">
-          Forgot your password?
-        </Link>
-      )}
-      <button type="submit" className="green-btn">
-        {pathName === "/signUp" ? "Sign Up" : "Sign In"}
-      </button>
-    </form>
+        {pathName === "/signUp" && (
+          <div>
+            <div className="relative">
+              <RiLockPasswordLine className="auth-input-icon" />
+              <input
+                type={inputTypes.confirmPassword}
+                {...register("confirmPassword", {
+                  required: "Confirm your password",
+                  validate: (value) =>
+                    value === getValues("password") || "Passwords do not match",
+                })}
+                placeholder="Confirm Password"
+                className="auth-input"
+              />
+              {inputTypes.confirmPassword === "password" ? (
+                <IoEyeOutline
+                  className="absolute top-[50%] -translate-y-[50%] right-2.5 text-[20px]"
+                  onClick={() => handlePasswordVisibility("confirmPassword")}
+                />
+              ) : (
+                <IoEyeOffOutline
+                  className="absolute top-[50%] -translate-y-[50%] right-2.5 text-[20px]"
+                  onClick={() => handlePasswordVisibility("confirmPassword")}
+                />
+              )}
+            </div>
+            {errors.confirmPassword && (
+              <p className="text-custom-red text-sm mt-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
+        )}
+        {pathName === "/signIn" && (
+          <Link className="text-[#64748B] text-[14px]" href="#!">
+            Forgot your password?
+          </Link>
+        )}
+        <button type="submit" className="green-btn">
+          {pathName === "/signUp" ? "Sign Up" : "Sign In"}
+        </button>
+      </form>
+    </>
   );
 };
 
