@@ -17,6 +17,15 @@ const signUpController = async (
     if (existingUser) {
       return res.status(401).json({ message: "User already exists" });
     }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      name: username,
+      email,
+      password: hashedPassword,
+      isEmailVerified: false,
+    });
+    await newUser.save();
+
     const emailToken = jwt.sign(
       { email },
       process.env.EMAIL_SECRET || "your_secret",
@@ -25,7 +34,6 @@ const signUpController = async (
       },
     );
     const verificationLink = `${process.env.APP_URL}/verify-email?token=${emailToken}`;
-
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
@@ -34,17 +42,8 @@ const signUpController = async (
     };
     await emailTransport.sendMail(mailOptions);
     res
-      .status(200)
+      .status(201)
       .json({ message: "Registration successful. Verification email sent." });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
-      name: username,
-      email,
-      password: hashedPassword,
-    });
-    await newUser.save();
-    res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     next(error);
   }
