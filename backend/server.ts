@@ -8,12 +8,12 @@ import AuthUserRoutes from "./routes/AuthUserRoutes";
 dotenv.config();
 
 const app = express();
-// error handler middleware
-app.use(errorHandler);
 //
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", AuthUserRoutes);
+// error handler middleware
+app.use(errorHandler);
 
 // connect to MongoDB
 mongoose
