@@ -26,7 +26,7 @@ const emailVerifyController = async (
     await user.updateOne({ isEmailVerified: true });
 
     const sessionToken = jwt.sign(
-      { email: user.email },
+      { id: user._id, email: user.email },
       process.env.JWT_SECRETAFTERVERIFICATION ||
         "your_jwt_secret_after_verification",
       {
