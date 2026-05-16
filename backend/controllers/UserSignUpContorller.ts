@@ -40,7 +40,11 @@ const signUpController = async (
       subject: "Verify your email for FinTrack",
       text: `Click the link to verify your email: ${verificationLink}`,
     };
-    await emailTransport.sendMail(mailOptions);
+
+    emailTransport.sendMail(mailOptions).catch((error) => {
+      console.error("Error sending verification email:", error);
+    });
+
     res
       .status(201)
       .json({ message: "Registration successful. Verification email sent." });
