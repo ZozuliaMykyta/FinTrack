@@ -48,7 +48,6 @@ const AuthForm: React.FC = () => {
       }
       if (response.status === 201) {
         setUserMessage(response.data.message);
-        console.log(response.data.message);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
