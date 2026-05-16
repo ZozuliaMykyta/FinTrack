@@ -68,9 +68,13 @@ const AuthForm: React.FC = () => {
   };
   return (
     <>
-      {userError && <p className="text-custom-red text-sm mb-3">{userError}</p>}
+      {userError && (
+        <p className="text-custom-red text-sm mb-3 text-center">{userError}</p>
+      )}
       {userMessage && (
-        <p className="text-grass-green text-sm mb-3">{userMessage}</p>
+        <p className="text-grass-green text-sm mb-3 max-w-40 text-center">
+          {userMessage}
+        </p>
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
