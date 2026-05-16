@@ -24,19 +24,17 @@ const emailVerifyController = async (
       return res.status(200).json({ message: "Email already verified" });
     }
     await user.updateOne({ isEmailVerified: true });
-    if (user.isEmailVerified) {
-      const sessionToken = jwt.sign(
-        { id: user._id, email: user.email },
-        process.env.JWT_SECRETAFTERVERIFICATION ||
-          "your_jwt_secret_after_verification",
-        {
-          expiresIn: "7d",
-        },
-      );
-      res
-        .status(200)
-        .json({ message: "Email verified successfully", token: sessionToken });
-    }
+    const sessionToken = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRETAFTERVERIFICATION ||
+        "your_jwt_secret_after_verification",
+      {
+        expiresIn: "7d",
+      },
+    );
+    res
+      .status(200)
+      .json({ message: "Email verified successfully", token: sessionToken });
   } catch (error) {
     next(error);
   }
