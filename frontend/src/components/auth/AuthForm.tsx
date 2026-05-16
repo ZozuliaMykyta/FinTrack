@@ -18,6 +18,7 @@ const AuthForm: React.FC = () => {
     confirmPassword: "password",
   });
   const [userError, setUserError] = useState<string | null>(null);
+  const [userMessage, setUserMessage] = useState<string | null>(null);
 
   const {
     register,
@@ -45,6 +46,10 @@ const AuthForm: React.FC = () => {
         setUserError(null);
         console.log("Registration successful:", response.data);
       }
+      if (response.status === 201) {
+        setUserMessage(response.data.message);
+        console.log(response.data.message);
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
@@ -64,6 +69,9 @@ const AuthForm: React.FC = () => {
   return (
     <>
       {userError && <p className="text-custom-red text-sm mb-3">{userError}</p>}
+      {userMessage && (
+        <p className="text-grass-green text-sm mb-3">{userMessage}</p>
+      )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-5 justify-center items-center"
