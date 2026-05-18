@@ -1,13 +1,14 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlinePerson, MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import IAuth from "@/interfaces/IAuth";
-import axios from "axios";
+import { useSignUpUserMutation } from "@/lib/services/api";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 
 const AuthForm: React.FC = () => {
   const [inputTypes, setInputTypes] = useState<{
@@ -19,6 +20,7 @@ const AuthForm: React.FC = () => {
   });
   const [userError, setUserError] = useState<string | null>(null);
   const [userMessage, setUserMessage] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const {
     register,
@@ -29,39 +31,48 @@ const AuthForm: React.FC = () => {
 
   const pathName = usePathname();
 
+  const [signUpUser, { isLoading }] = useSignUpUserMutation();
+
   const handlePasswordVisibility = (key: keyof typeof inputTypes) => {
     setInputTypes((prevState) => ({
       ...prevState,
       [key]: prevState[key] === "password" ? "text" : "password",
     }));
   };
-
+  // TODO: Implenment redirect after successful registration.
+  // useEffect(() => {
+  //   if (isSubmitted) {
+  //     const timer = setTimeout(() => {}, 5000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isSubmitted]);
   const onSubmit: SubmitHandler<IAuth> = async (data: IAuth) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/signup",
-        data,
-      );
-      if (response.data) {
+      const response = await signUpUser({
+        email: data.email,
+        password: data.password,
+        username: data.username,
+      }).unwrap();
+      if (response) {
         setUserError(null);
-        console.log("Registration successful:", response.data);
-      }
-      if (response.status === 201) {
-        setUserMessage(response.data.message);
+        setUserMessage(
+          response.message ||
+            "Registration successful. Verification email sent.",
+        );
+        setIsSubmitted(true);
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 409) {
-          setUserError(error.response.data.message || "User already exists");
+      if (typeof error === "object" && error != null && "status" in error) {
+        const fetchError = error as FetchBaseQueryError;
+
+        if (fetchError.status === 409) {
+          const errorData = fetchError.data as { message?: string };
+          setUserError(errorData?.message || "User already exists");
         } else {
-          console.error(
-            "Server response:",
-            error.response?.status || error.code,
-            error.response?.data || error.message,
-          );
+          setUserError("Registration failed. Please try again.");
         }
       } else {
-        console.error("Registration error:", error);
+        setUserError("An unexpected error occurred");
       }
     }
   };
@@ -198,8 +209,12 @@ const AuthForm: React.FC = () => {
             Forgot your password?
           </Link>
         )}
-        <button type="submit" className="green-btn">
-          {pathName === "/signUp" ? "Sign Up" : "Sign In"}
+        <button type="submit" className="green-btn" disabled={isSubmitted}>
+          {isLoading
+            ? "Loading..."
+            : pathName === "/signUp"
+              ? "Sign Up"
+              : "Sign In"}
         </button>
       </form>
     </>
