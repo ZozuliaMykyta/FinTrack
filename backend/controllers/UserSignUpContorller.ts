@@ -47,7 +47,10 @@ const signUpController = async (
 
     res
       .status(201)
-      .json({ message: "Registration successful. Verification email sent." });
+      .json({
+        message: "Registration successful. Verification email sent.",
+        userId: newUser._id,
+      });
   } catch (error) {
     next(error);
   }
