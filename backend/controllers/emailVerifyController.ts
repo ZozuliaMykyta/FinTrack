@@ -34,7 +34,11 @@ const emailVerifyController = async (
     );
     res
       .status(200)
-      .json({ message: "Email verified successfully", token: sessionToken });
+      .json({
+        message: "Email verified successfully",
+        token: sessionToken,
+        userId: user._id,
+      });
   } catch (error) {
     next(error);
   }
