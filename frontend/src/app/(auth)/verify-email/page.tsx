@@ -1,48 +1,37 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import axios from "axios";
 export default function VerifyEmailPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const emailToken = searchParams.get("token");
-
+  const [status, setStatus] = useState<number | null>(null);
   useEffect(() => {
     const verifyEmail = async () => {
-      if (!emailToken) {
-        router.push("/signUp");
-        return;
-      }
-
       try {
         const response = await axios.post(
           "http://localhost:5000/api/auth/verify-email",
           null,
-          {
-            params: { token: emailToken },
-          },
         );
 
-        if (response.data?.token) {
-          localStorage.setItem("token", response.data.token);
-          router.push("/");
+        if (response.status === 200) {
+          setStatus(200);
+          window.close();
           return;
         }
-
-        router.push("/signIn");
       } catch (error) {
         console.error("Verification failed:", error);
-        router.push("/signUp");
       }
     };
 
     verifyEmail();
-  }, [emailToken, router]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <p className="text-lg">Verifying your email...</p>
+      <p className="text-lg">
+        {status === 200
+          ? "Email verified successfully!"
+          : "Verifying your email..."}
+      </p>
     </div>
   );
 }
