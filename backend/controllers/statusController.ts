@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
+import jwt from "jsonwebtoken";
+
 const statusController = async (
   req: Request,
   res: Response,
@@ -14,11 +16,24 @@ const statusController = async (
 
     const user = await User.findById(id);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    if (!user?.isEmailVerified) {
+      return res.json({ isEmailVerified: false });
     }
 
-    res.json({ isEmailVerified: user.isEmailVerified });
+    const sessionToken = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRETAFTERVERIFICATION ||
+        "your_jwt_secret_after_verification",
+      {
+        expiresIn: "7d",
+      },
+    );
+    res.status(200).json({
+      message: "Email verified successfully",
+      token: sessionToken,
+      userId: user._id,
+      isEmailVerified: true,
+    });
   } catch (error) {
     next(error);
   }
