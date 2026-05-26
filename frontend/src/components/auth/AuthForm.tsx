@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { MdOutlinePerson, MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -7,7 +7,10 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import IAuth from "@/interfaces/IAuth";
-import { useSignUpUserMutation } from "@/lib/services/api";
+import {
+  useGetUserStatusQuery,
+  useSignUpUserMutation,
+} from "@/lib/services/api";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 
 const AuthForm: React.FC = () => {
@@ -21,6 +24,7 @@ const AuthForm: React.FC = () => {
   const [userError, setUserError] = useState<string | null>(null);
   const [userMessage, setUserMessage] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>("");
 
   const {
     register,
@@ -30,6 +34,7 @@ const AuthForm: React.FC = () => {
   } = useForm<IAuth>();
 
   const pathName = usePathname();
+  const router = useRouter();
 
   const [signUpUser, { isLoading }] = useSignUpUserMutation();
 
@@ -39,13 +44,16 @@ const AuthForm: React.FC = () => {
       [key]: prevState[key] === "password" ? "text" : "password",
     }));
   };
-  // TODO: Implenment redirect after successful registration.
-  // useEffect(() => {
-  //   if (isSubmitted) {
-  //     const timer = setTimeout(() => {}, 5000);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [isSubmitted]);
+  const { data } = useGetUserStatusQuery(userId, {
+    skip: !userId,
+    pollingInterval: 3000,
+  });
+  useEffect(() => {
+    if (data?.isEmailVerified && data?.token) {
+      localStorage.setItem("token", data.token);
+      router.push("/");
+    }
+  }, [data, router]);
   const onSubmit: SubmitHandler<IAuth> = async (data: IAuth) => {
     try {
       const response = await signUpUser({
@@ -60,6 +68,7 @@ const AuthForm: React.FC = () => {
             "Registration successful. Verification email sent.",
         );
         setIsSubmitted(true);
+        setUserId(response.userId);
       }
     } catch (error) {
       if (typeof error === "object" && error != null && "status" in error) {
