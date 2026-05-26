@@ -25,21 +25,6 @@ const emailVerifyController = async (
     }
     await user.updateOne({ isEmailVerified: true });
     res.status(200).json({ message: "Email was verified successfully" });
-    // TODO - generate a new token in statusController and send it to the frontend, then store it in localStorage and delete the old one
-    // const sessionToken = jwt.sign(
-    //   { id: user._id, email: user.email },
-    //   process.env.JWT_SECRETAFTERVERIFICATION ||
-    //     "your_jwt_secret_after_verification",
-    //   {
-    //     expiresIn: "7d",
-    //   },
-    // );
-    // res.status(200).json({
-    //   message: "Email verified successfully",
-    //   token: sessionToken,
-    //   userId: user._id,
-    //   isVerified: user.isEmailVerified,
-    // });
   } catch (error) {
     next(error);
   }
