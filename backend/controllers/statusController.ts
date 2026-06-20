@@ -31,6 +31,7 @@ const statusController = async (
     res.status(200).json({
       message: "Email verified successfully",
       token: sessionToken,
+      user: user,
       userId: user._id,
       isEmailVerified: true,
     });
