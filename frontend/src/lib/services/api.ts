@@ -1,4 +1,5 @@
 import { ISignUpRequest, ISignUpResponse } from "@/interfaces/IAuthApi";
+import IUser from "@/interfaces/IUser";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const FinTrackApi = createApi({
@@ -6,7 +7,7 @@ export const FinTrackApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
   endpoints: (builder) => ({
     getUserStatus: builder.query<
-      { isEmailVerified: boolean; userId: string; token: string },
+      { user: IUser; isEmailVerified: boolean; userId: string; token: string },
       string
     >({
       query: (id) => `/api/auth/status/${id}`,
