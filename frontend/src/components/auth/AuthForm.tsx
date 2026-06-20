@@ -12,6 +12,8 @@ import {
   useSignUpUserMutation,
 } from "@/lib/services/api";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { setUserData } from "@/lib/features/authSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
 const AuthForm: React.FC = () => {
   const [inputTypes, setInputTypes] = useState<{
@@ -25,6 +27,7 @@ const AuthForm: React.FC = () => {
   const [userMessage, setUserMessage] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -50,10 +53,11 @@ const AuthForm: React.FC = () => {
   });
   useEffect(() => {
     if (data?.isEmailVerified && data?.token) {
+      dispatch(setUserData({ user: data.user, token: data.token }));
       localStorage.setItem("token", data.token);
       router.push("/");
     }
-  }, [data, router]);
+  }, [data, router, dispatch]);
   const onSubmit: SubmitHandler<IAuth> = async (data: IAuth) => {
     try {
       const response = await signUpUser({
