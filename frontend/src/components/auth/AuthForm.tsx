@@ -53,7 +53,7 @@ const AuthForm: React.FC = () => {
   });
   useEffect(() => {
     if (data?.isEmailVerified && data?.token) {
-      dispatch(setUserData({ user: data.user, token: data.token }));
+      dispatch(setUserData({ user: data.user }));
       localStorage.setItem("token", data.token);
       router.push("/");
     }
