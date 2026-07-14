@@ -22,8 +22,8 @@ const statusController = async (
 
     const sessionToken = jwt.sign(
       { id: user._id, email: user.email },
-      process.env.JWT_SECRETAFTERVERIFICATION ||
-        "your_jwt_secret_after_verification",
+      process.env.JWT_AUTH_SECRET ||
+        "jwt_auth_secret",
       {
         expiresIn: "7d",
       },
