@@ -14,7 +14,7 @@ const emailVerifyController = async (
     }
     const decoded = jwt.verify(
       token,
-      process.env.EMAIL_SECRET || "your_secret",
+      process.env.JWT_EMAIL_SECRET || "your_secret",
     ) as { email: string };
     const user = await User.findOne({ email: decoded.email });
     if (!user) {
