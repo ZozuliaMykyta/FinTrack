@@ -28,7 +28,7 @@ const signUpController = async (
 
     const emailToken = jwt.sign(
       { email },
-      process.env.EMAIL_SECRET || "your_secret",
+      process.env.JWT_EMAIL_SECRET || "your_secret",
       {
         expiresIn: "1d",
       },
@@ -45,12 +45,10 @@ const signUpController = async (
       console.error("Error sending verification email:", error);
     });
 
-    res
-      .status(201)
-      .json({
-        message: "Registration successful. Verification email sent.",
-        userId: newUser._id,
-      });
+    res.status(201).json({
+      message: "Registration successful. Verification email sent.",
+      userId: newUser._id,
+    });
   } catch (error) {
     next(error);
   }
