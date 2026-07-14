@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { FinTrackApi } from "./services/api";
 import authReducer from "@/lib/features/authSlice";
+import { setupListeners } from "@reduxjs/toolkit/query/react";
 
 export const makeStore = () => {
-  return configureStore({
+  const store = configureStore({
     reducer: {
       [FinTrackApi.reducerPath]: FinTrackApi.reducer,
       auth: authReducer,
@@ -11,6 +12,8 @@ export const makeStore = () => {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(FinTrackApi.middleware),
   });
+  setupListeners(store.dispatch);
+  return store;
 };
 
 export type AppStore = ReturnType<typeof makeStore>;
