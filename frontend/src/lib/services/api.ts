@@ -5,6 +5,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const FinTrackApi = createApi({
   reducerPath: "FinTrackApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     getUserStatus: builder.query<
       { user: IUser; isEmailVerified: boolean; userId: string; token: string },
