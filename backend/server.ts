@@ -4,12 +4,19 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import errorHandler from "./middlewares/errorMiddleware";
 import AuthUserRoutes from "./routes/AuthUserRoutes";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
+app.use(cookieParser());
 //
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use("/api/auth", AuthUserRoutes);
 // error handler middleware
