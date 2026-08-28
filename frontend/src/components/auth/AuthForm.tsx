@@ -52,15 +52,8 @@ const AuthForm: React.FC = () => {
     pollingInterval: 3000,
   });
   useEffect(() => {
-    if (data?.isEmailVerified && data?.token) {
-      dispatch(setUserData({ user: data.user, token: data.token }));
-      localStorage.setItem(
-        "authSession",
-        JSON.stringify({
-          user: data.user,
-          token: data.token,
-        }),
-      );
+    if (data?.isEmailVerified && data?.user) {
+      dispatch(setUserData({ user: data.user, isAuthenticated: true }));
       router.push("/");
     }
   }, [data, router, dispatch]);
