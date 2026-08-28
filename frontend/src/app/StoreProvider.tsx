@@ -13,68 +13,43 @@ export default function StoreProvider({
 }) {
   const store = useMemo(() => makeStore(), []);
   const router = useRouter();
-  const pathname = usePathname();
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
-
-  const publicRoutes = ["/verify-email"];
-  const isPublicRoute = publicRoutes.includes(pathname);
+  const pathname = usePathname();
+  const isPublicRoute = pathname === "/verify-email";
 
   useEffect(() => {
-    const authSession = localStorage.getItem("authSession");
-    if (!authSession) {
-      if (!isPublicRoute) {
-        router.replace("/signUp");
-      }
-      setTimeout(() => setIsCheckingAuth(false), 0);
+    if (isPublicRoute) {
+      setIsCheckingAuth(false);
       return;
     }
-    const controller = new AbortController();
     const checkAuth = async () => {
       try {
-        const sessionData = JSON.parse(authSession);
-
-        if (!sessionData.user || !sessionData.token) {
-          localStorage.removeItem("authSession");
-          store.dispatch(logout());
-          if (!isPublicRoute) {
-            router.replace("/signUp");
-          }
-          return;
+        const response = await axios.get(
+          "http://localhost:5000/api/auth/refresh-status",
+          {
+            withCredentials: true,
+          },
+        );
+        const { user, isEmailVerified } = response.data;
+        if (user && isEmailVerified) {
+          store.dispatch(setUserData({ user, isAuthenticated: true }));
         }
-
-        store.dispatch(
-          setUserData({ user: sessionData.user, token: sessionData.token }),
-        );
-
-        await axios.post(
-          "http://localhost:5000/api/auth/token",
-          { token: sessionData.token },
-          { signal: controller.signal },
-        );
-
-        setIsCheckingAuth(false);
       } catch (error) {
-        if (axios.isCancel(error)) {
-          return;
-        }
-
-        localStorage.removeItem("authSession");
         store.dispatch(logout());
-        if (!isPublicRoute) {
+        const status = axios.isAxiosError(error)
+          ? error.response?.status
+          : undefined;
+        if (status === 401 || status === 404) {
           router.replace("/signUp");
+        } else {
+          console.error("Auth check failed:", error);
         }
       } finally {
-        if (!controller.signal.aborted) {
-          setIsCheckingAuth(false);
-        }
+        setIsCheckingAuth(false);
       }
     };
-
     void checkAuth();
-    return () => {
-      controller.abort();
-    };
-  }, [store, router, pathname, isPublicRoute]);
+  }, [router, store, isPublicRoute]);
   if (isCheckingAuth) {
     return (
       <div className="flex min-h-screen items-center justify-center">
