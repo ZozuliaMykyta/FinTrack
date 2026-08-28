@@ -22,15 +22,19 @@ const statusController = async (
 
     const sessionToken = jwt.sign(
       { id: user._id, email: user.email },
-      process.env.JWT_AUTH_SECRET ||
-        "jwt_auth_secret",
+      process.env.JWT_AUTH_SECRET || "jwt_auth_secret",
       {
         expiresIn: "7d",
       },
     );
+    res.cookie("sessionToken", sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
     res.status(200).json({
       message: "Email verified successfully",
-      token: sessionToken,
       user: user,
       userId: user._id,
       isEmailVerified: true,
