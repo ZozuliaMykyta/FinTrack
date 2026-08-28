@@ -23,10 +23,10 @@ export default function VerifyEmailPage() {
 
         if (response.status === 200) {
           setStatus(200);
-          setTimeout(() => {
+          const timer = setTimeout(() => {
             window.close();
           }, 3000);
-          return;
+          return () => clearTimeout(timer);
         }
       } catch (error) {
         console.error("Verification failed:", error);
