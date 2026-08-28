@@ -4,15 +4,24 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const FinTrackApi = createApi({
   reducerPath: "FinTrackApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000",
+    credentials: "include",
+  }),
   refetchOnFocus: true,
   refetchOnReconnect: true,
   endpoints: (builder) => ({
     getUserStatus: builder.query<
-      { user: IUser; isEmailVerified: boolean; userId: string; token: string },
+      { user: IUser; isEmailVerified: boolean; userId: string },
       string
     >({
       query: (id) => `/api/auth/status/${id}`,
+    }),
+    getRefreshStatus: builder.query<
+      { user: IUser; isEmailVerified: boolean; userId: string },
+      void
+    >({
+      query: () => `/api/auth/refresh-status`,
     }),
     signUpUser: builder.mutation<ISignUpResponse, ISignUpRequest>({
       query: (credentials) => ({
@@ -23,4 +32,8 @@ export const FinTrackApi = createApi({
     }),
   }),
 });
-export const { useGetUserStatusQuery, useSignUpUserMutation } = FinTrackApi;
+export const {
+  useGetUserStatusQuery,
+  useSignUpUserMutation,
+  useGetRefreshStatusQuery,
+} = FinTrackApi;
